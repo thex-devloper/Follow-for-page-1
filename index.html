@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Página</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
+  .box { padding: 24px; max-width: 420px; }
+  h1 { font-size: 1.5rem; margin-bottom: 12px; }
+  p { color: #bbb; margin-bottom: 24px; }
+  button {
+    background: #e50914;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 16px 32px;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+  #susto {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 10;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    animation: piscar 0.15s infinite;
+  }
+  #susto h2 {
+    font-size: 3rem;
+    color: #fff;
+    text-transform: uppercase;
+  }
+  #susto small { color: #fff; margin-top: 16px; font-size: 1rem; }
+  @keyframes piscar {
+    0%   { background: #000; }
+    50%  { background: #b00000; }
+    100% { background: #000; }
+  }
+</style>
+</head>
+<body>
+
+<div class="box" id="inicio">
+  <h1>Acesso liberado</h1>
+  <p>Clique no botão abaixo para continuar.</p>
+  <button id="botao">Seguir para a página</button>
+</div>
+
+<div id="susto">
+  <h2>😱 CAIU NA PEGADINHA! 😱</h2>
+  <small>Toque na tela para parar o som</small>
+</div>
+
+<audio id="audio" src="audio.mp3" preload="auto"></audio>
+
+<script>
+  const botao = document.getElementById('botao');
+  const susto = document.getElementById('susto');
+  const audio = document.getElementById('audio');
+
+  botao.addEventListener('click', () => {
+    audio.volume = 1;
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
+    susto.style.display = 'flex';
+    if (navigator.vibrate) navigator.vibrate([300, 100, 300, 100, 300]);
+  });
+
+  // Toque na tela de susto para parar
+  susto.addEventListener('click', () => {
+    audio.pause();
+    susto.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>
